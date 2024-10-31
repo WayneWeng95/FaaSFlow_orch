@@ -13,11 +13,15 @@ sample_data = {
 }
 
 # Endpoint to get a simple message (GET request)
+
+
 @app.route("/get_message", methods=["GET"])
 def get_message():
     return jsonify(sample_data), 200
 
 # Endpoint to process data sent by the client (POST request)
+
+
 @app.route("/process_data", methods=["POST"])
 def process_data():
     if request.is_json:
@@ -30,13 +34,22 @@ def process_data():
         return jsonify(response_message), 200
     else:
         return jsonify({"message": "Request data must be in JSON format", "status": "error"}), 400
-    
+
+
 @app.route("/run_script", methods=["POST"])
 def run_script():
     try:
         # Run the shell script
-        result = subprocess.run(["./FaaSFlow_orch/flask_demo/script.sh"], capture_output=True, text=True)
-        
+        result = subprocess.run(
+            ["./FaaSFlow_orch/flask_demo/script.sh"], capture_output=True, text=True)
+        # command = ['./cold', firecracker_number, fibonacci_number]
+        # result = subprocess.run(
+        #     command,
+        #     text=True,  # Treat output as strings
+        #     capture_output=True,  # Capture stdout and stderr
+        #     check=True  # Raise CalledProcessError for non-zero exit codes
+        # )
+
         # Capture stdout and stderr from the script
         if result.returncode == 0:
             return jsonify({"message": "Script ran successfully!", "output": result.stdout}), 200
@@ -45,6 +58,7 @@ def run_script():
     except Exception as e:
         return jsonify({"message": "An error occurred while running the script.", "error": str(e)}), 500
 
+
 @app.route("/shutdown", methods=["POST"])
 def shutdown():
     os.kill(os.getpid(), signal.SIGINT)
@@ -52,4 +66,5 @@ def shutdown():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)         # Specify the port number here  app.run(debug=True, port=8000)
+    # Specify the port number here  app.run(debug=True, port=8000)
+    app.run(debug=True)

@@ -23,7 +23,7 @@ except requests.exceptions.RequestException as e:
     print("Request failed:", e)
 
 #try
-response = requests.post("http://127.0.0.1:5000/shutdown")
+# response = requests.post("http://127.0.0.1:5000/shutdown")
 #     if response.status_code == 200:
 #         print("Server is shutting down...")
 #     else:
